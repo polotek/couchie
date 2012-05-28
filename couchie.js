@@ -7,9 +7,10 @@
   function Couchie (name) {
     if (name.indexOf('__') !== -1) throw new Error('Cannot have double underscores in name')
     this.name = name
-    this._prefix = '_couchie__'+name+'__'
+    Storage.call(this, '_couchie__'+name+'__')
   }
   Couchie.prototype = new Storage()
+  Couchie.prototype.constructor = Storage
   Couchie.prototype.clear = function (cb) {
     if (this.has('_revs')) {
       for (var i in this.revs()) {
@@ -20,7 +21,6 @@
     } else {
       setTimeout(cb, 0)
     }
-      
   }
   Couchie.prototype.post = function (obj, cb) {
     if (!obj._id || !obj._rev) return cb(new Error('Document does not have _id or _rev.'))
