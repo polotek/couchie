@@ -44,7 +44,10 @@
   Couchie.prototype._get = Couchie.prototype.get;
   Couchie.prototype.get = function (id, cb) {
     var doc = this._get(id)
+
+    // the Storage lib calls get() without a cb
     if(typeof cb !== 'function') { return doc; }
+
     if (!doc) return cb(new Error('No such doc.'))
     cb(null, doc)
   }
